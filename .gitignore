@@ -1,4 +1,4 @@
 .DS_Store
 .vscode
-bin
-build
+*/bin
+*/build
