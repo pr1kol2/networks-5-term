@@ -2,3 +2,4 @@
 .vscode
 */bin
 */build
+**/__pycache__
