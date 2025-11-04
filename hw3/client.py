@@ -42,9 +42,9 @@ def register_with_rendezvous(udp_socket, rendezvous_address, room_id, private_ip
       continue
     text = data.decode("utf-8", "ignore")
     if text.startswith("PEER"):
-      _, pub_ip, pub_port, private_ip, private_port = text.split()
+      _, pub_ip, pub_port, priv_ip, priv_port = text.split()
       peer_public = (pub_ip, int(pub_port))
-      peer_private = (private_ip, int(private_port))
+      peer_private = (priv_ip, int(priv_port))
       return peer_public, peer_private
   raise RuntimeError("rendezvous: no PEER within timeout")
 
@@ -108,7 +108,7 @@ def main():
   local_address = udp_socket.getsockname()
 
   private_ip = get_interface_ip(args.ifname)
-  print(f"[init] local={local_address}, private_ip={private_ip}, rv={rendezvous_address}, room={args.room}")
+  print(f"[init] local={local_address}, priv_ip={private_ip}, rv={rendezvous_address}, room={args.room}")
 
   peer_public, peer_private = register_with_rendezvous(
       udp_socket, rendezvous_address, args.room, private_ip, args.local_port
