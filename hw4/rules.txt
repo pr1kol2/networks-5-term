@@ -1,0 +1,5 @@
+blocked_name_regex: '^blocked\.local$'
+drop_qtypes: ['AAAA']
+drop_if_rd_zero: true
+drop_if_edns_present: true
+max_qname_length: 50
