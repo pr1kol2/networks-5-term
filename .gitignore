@@ -3,4 +3,5 @@
 */bin
 */build
 **/__pycache__
-sem*
+*.crt
+*.key
