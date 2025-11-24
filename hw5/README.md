@@ -2,7 +2,7 @@
 
 ## Запуск
 
-```py
+```sh
 [SSLKEYLOGFILE=<path>] python3 main.py --mode <{tcp, udp}> --role <{server, client}> --host <host=127.0.0.1> --port <port=9000> [--tls --cert <path> --key <path>]
 ```
 
