@@ -49,19 +49,18 @@ def tcp_chat(connection, sender_address, is_tls):
       pass
     connection.close()
 
-def create_tls_context(is_server, cert_path=None, key_path=None):
-  context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER if is_server else ssl.PROTOCOL_TLS_CLIENT)
+def create_tls_context(is_server, cert_path=None, key_path=None, ca_path=None):
   if is_server:
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
     context.load_cert_chain(certfile=cert_path, keyfile=key_path)
   else:
-    context.check_hostname = False
-    context.verify_mode = ssl.CERT_NONE
+    context = ssl.create_default_context(cafile=ca_path)
   keylog_file = os.getenv("SSLKEYLOGFILE")
   if keylog_file:
     context.keylog_filename = keylog_file
   return context
 
-def tcp_server(host, port, tls_enabled=False, cert_path=None, key_path=None):
+def tcp_server(host, port, tls_enabled=False, cert_path=None, key_path=None, ca_path=None):
   tls_context = None
   if tls_enabled:
     if not cert_path or not key_path:
@@ -96,10 +95,10 @@ def tcp_server(host, port, tls_enabled=False, cert_path=None, key_path=None):
 
       print("[TCP] session ended -> waiting next client...")
 
-def tcp_client(host, port, tls_enabled=False, cert_path=None, key_path=None):
+def tcp_client(host, port, tls_enabled=False, cert_path=None, key_path=None, ca_path=None):
   with socket.create_connection((host, port)) as raw_socket:
     if tls_enabled:
-      tls_context = create_tls_context(False)
+      tls_context = create_tls_context(False, ca_path=ca_path)
       try:
         client_socket = tls_context.wrap_socket(raw_socket, server_hostname=host)
       except ssl.SSLError as error:

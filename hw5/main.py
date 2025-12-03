@@ -13,6 +13,7 @@ def main():
   args_parser.add_argument("--tls", action="store_true", help="Enable TLS for TCP mode")
   args_parser.add_argument("--cert", help="Path to TLS certificate (server side)")
   args_parser.add_argument("--key", help="Path to TLS private key (server side)")
+  args_parser.add_argument("--ca", help="Path to CA certificate for server verification (client side)")
 
   args = args_parser.parse_args()
 
@@ -24,7 +25,7 @@ def main():
   }
 
   if args.mode == "tcp":
-    dispatch[(args.mode, args.role)](args.host, args.port, args.tls, args.cert, args.key)
+    dispatch[(args.mode, args.role)](args.host, args.port, args.tls, args.cert, args.key, args.ca)
   else:
     dispatch[(args.mode, args.role)](args.host, args.port)
 

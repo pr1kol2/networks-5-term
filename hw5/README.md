@@ -3,7 +3,7 @@
 ## Запуск
 
 ```sh
-[SSLKEYLOGFILE=<path>] python3 main.py --mode <{tcp, udp}> --role <{server, client}> --host <host=127.0.0.1> --port <port=9000> [--tls --cert <path> --key <path>]
+[SSLKEYLOGFILE=<path>] python3 main.py --mode <{tcp, udp}> --role <{server, client}> --host <host=127.0.0.1> --port <port=9000> [--tls --cert <path> --key <path> --ca <path>]
 ```
 
 ## Протокол
@@ -20,9 +20,9 @@
 
 ### TLS
 
-- TLS работает только для TCP; для UDP флаги `--tls/--cert/--key` игнорируются.
+- TLS работает только для TCP; для UDP флаги `--tls/--cert/--key/--ca` игнорируются.
 - Сервер в режиме TLS требует оба аргумента `--cert` и `--key`.
-- Клиент в режиме TLS не требует этих аргументов.
+- Клиент в режиме TLS проверяет серверный сертификат; для самоподписанного сертификата передайте `--ca <корневой.crt>` (или цепочку).
 - Для логирования сессионных ключей укажите переменную окружения `SSLKEYLOGFILE` на клиенте и на сервере.
 
 ### UDP
